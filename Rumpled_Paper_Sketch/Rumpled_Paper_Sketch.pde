@@ -8,7 +8,7 @@ PImage img;
 
 void setup() {
   size(1000, 1000, P3D);
-  img = loadImage("ReceiptImage.Jpeg");
+  img = loadImage("test.jpg");
   noStroke();
   
 
@@ -22,11 +22,11 @@ float interval;
 void draw() {
   background(0);
   translate(width/3, height/3, 0);
-    interval = random(3, 10);
+    interval = random(3, 50);
   
     
 
-  scale(1.5);
+  scale(0.5);
     //  directionalLight(255, 255, 255, 10, 10,-10);
 lights();
 
@@ -40,6 +40,7 @@ float xrand, yrand;
           xrand = 40;
        yrand = 10;
       }
+        
       float zBound = random(5, 25);
   for(float y = 0; y < img.height; y += interval) {
           beginShape(TRIANGLE_STRIP);
