@@ -7,8 +7,9 @@
 PImage img;
 
 void setup() {
+  
+  img = loadImage("ReceiptImage.Jpeg");
   size(1000, 1000, P3D);
-  img = loadImage("test.jpg");
   noStroke();
   
 
@@ -18,20 +19,20 @@ void setup() {
 
 float interval;
 
-
 void draw() {
   background(0);
-  translate(width/3, height/3, 0);
-    interval = random(3, 50);
-  
-    
+  translate(300, 300);
+    interval = random(1, 100);
+    if(interval < 50) {
+      interval = random(3, 10);
+    } else {
+      interval = random(40, 60);
+    }
 
-  scale(0.5);
-    //  directionalLight(255, 255, 255, 10, 10,-10);
+       float seed = random(-3, 3)/10;
+rotateX(6.7);
 lights();
 
-       float seed = random(-20, 20)/10;
-rotateX(6.9);
 float xrand, yrand;
       if(random(1, 100) < 50) {
          xrand = 10;
@@ -40,7 +41,7 @@ float xrand, yrand;
           xrand = 40;
        yrand = 10;
       }
-        
+  
       float zBound = random(5, 25);
   for(float y = 0; y < img.height; y += interval) {
           beginShape(TRIANGLE_STRIP);
@@ -54,23 +55,27 @@ float xrand, yrand;
       float terrain1; 
       float terrain2;
 
-      if(interval <= 10) {
+      if(interval <= 25) {
         
         terrain1 = map(noise((x/interval) /xrand, (y/interval) /yrand), 0, 1, -zBound, zBound);
         terrain2 = map(noise((x/interval) /xrand, ((y + interval)/interval) /yrand), 0, 1, -zBound, zBound);
-      } else if(interval > 10 && interval <= 30) {
-             terrain1 = map(noise((x/(img.width/seed)) * 1, (y/(img.height/seed)) * 1), 0, 1, -30, 30);
-
-       terrain2 = map(noise((x/(img.width/seed)) * 1, ((y + interval)/(img.height/seed)) * 1), 0, 1, -30, 30);
       } else {
-            terrain1 = map(noise(x/1000, y/100), 0, 1, -40, 40);
+             terrain1 = map(noise(x/1000, y/seed) , 0, 1, -40, 40);
 
-       terrain2 = map(noise(x/1000, (y + interval)/100), 0, 1, -40, 40);
+       terrain2 = map(noise(x/1000, (y + interval)/seed), 0, 1, -40, 40);
 
-    }
+      } 
 
       vertex(x , y, terrain1, x, y);
       vertex(x , y + interval , terrain2, x, y + interval);
+      
+      if(x + interval >= img.width) {
+        float leftover = img.width - x;
+        vertex(x + leftover , y, terrain1, x + leftover, y);
+      vertex(x + leftover , y + interval , terrain2, x + leftover, y + interval);
+      }
+      
+    
       
     }
     
@@ -79,5 +84,5 @@ float xrand, yrand;
 
   }
   
- saveFrame("line-######.jpg");
+ saveFrame("linee-######.jpg");
 }
